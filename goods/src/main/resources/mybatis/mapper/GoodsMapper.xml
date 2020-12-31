@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zsj.goods.mybatis.mapper.GoodsMapper">
+    <resultMap id="BaseResultMap" type="com.zsj.goods.entity.GoodsEntity">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_sn" property="goodsSn" jdbcType="VARCHAR"/>
+        <result column="num" property="num" javaType="INT"/>
+        <result column="updated_at" property="updatedAt" javaType="INT"/>
+        <result column="created_at" property="createdAt" javaType="INT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, goods_sn, goods_name,num
+    </sql>
+
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM goods
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.zsj.goods.entity.GoodsEntity" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+          goods (goods_sn, goods_name,num,created_at)
+        VALUES
+          (#{goodsSn}, #{goodsName}, #{num}, #{createdAt})
+    </insert>
+
+    <update id="update" parameterType="com.zsj.goods.entity.GoodsEntity">
+        UPDATE goods SET
+        <if test="goodsSn != null and goodsSn != ''">
+            goods_sn = #{goodsSn},
+        </if>
+        <if test="goodsName != null and goodsName != ''">
+            goods_name = #{goodsName},
+        </if>
+        <if test="num != null and num != ''">
+            num = #{num},
+        </if>
+        updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+</mapper>

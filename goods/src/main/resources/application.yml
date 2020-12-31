@@ -1,0 +1,40 @@
+server:
+  port: 8011
+spring:
+  application:
+    name: goods-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: home.mytest.com:8848
+        log-name: ${spring.application.name}
+    sentinel:
+      transport:
+        dashboard: home.mytest.com:8858
+      # 取消延迟加载
+      eager: true
+      # 持久化设置, sentinel会自动到Nacos中去读取配置信息
+      datasource:
+        ds1:
+          nacos:
+            server-addr: home.mytest.com:8848
+            data-id: ${spring.application.name}-sentinel
+            group-id: DEFAULT_GROUP
+            rule-type: flow
+  datasource:
+    url: jdbc:mysql://home.mytest.com:3306/cloud_goods
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  profiles:
+    include: seata
+mybatis-plus:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  configuration:
+    # 在控制台打印日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  path: "D:\\workspace-Java\\my_project\\springCloudTest\\logs\\goods"
+  level:
+    # 打印SQL
+    com.zsj.account.mybatis.mapper: debug

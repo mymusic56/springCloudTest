@@ -1,0 +1,30 @@
+seata:
+  # 配置中心
+  config:
+    type: nacos
+    file:
+      name: file.conf
+    nacos:
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      username: nacos
+      password: nacos
+      group: SEATA_GROUP
+  application-id: ${spring.application.name}-seata
+  enabled: true
+  tx-service-group:
+    ${spring.application.name}-seata-service-group: default
+  enable-auto-data-source-proxy: true
+  # 注册中心
+  registry:
+    type: nacos
+    file:
+      # 使用file作为注册中心
+      name: file.conf
+    nacos:
+      # 使用nacos作为注册中心
+      server-addr: ${spring.cloud.nacos.discovery.server-addr}
+      username: nacos
+      password: nacos
+      group: SEATA_GROUP
+      cluster: default
+      application: seata-server

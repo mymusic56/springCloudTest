@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zsj.account.mybatis.mapper.AccountMapper">
+    <resultMap id="BaseResultMap" type="com.zsj.account.entity.AccountEntity">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="account_code" property="accountCode" jdbcType="VARCHAR"/>
+        <result column="account_name" property="accountName" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" javaType="DOUBLE"/>
+        <result column="updated_at" property="updatedAt" javaType="INT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, account_code, account_name, amount
+    </sql>
+
+    <select id="findByAccountName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM account
+        WHERE account_name = #{accountName}
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM account
+        WHERE id = #{id}
+    </select>
+
+    <select id="findByPage" parameterType="Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM account
+        WHERE 1=1
+        <if test="account_name != null and account_name != ''">
+            AND account_name LIKE "%"#{account_name}"%"
+        </if>
+        LIMIT #{startIndex},#{pageSize}
+    </select>
+    <insert id="insert" parameterType="com.zsj.account.entity.AccountEntity" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+          account (account_code, account_name, amount)
+        VALUES
+          (#{accountCode}, #{accountName}, #{amount})
+    </insert>
+
+    <update id="update" parameterType="com.zsj.account.entity.AccountEntity">
+        UPDATE account SET
+        <if test="accountName != null and accountName != ''">
+            account_name = #{accountName},
+        </if>
+        <if test="accountCode != null and accountCode != ''">
+            account_code = #{accountCode},
+        </if>
+        <if test="amount != null and amount != ''">
+            amount = #{amount},
+        </if>
+        updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <update id="increaseAmount" parameterType="com.zsj.account.entity.AccountEntity">
+        UPDATE account SET
+        amount = amount + #{amount},
+        updated_at = #{updatedAt}
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteByIds">
+        UPDATE account
+        SET is_deleted = 1, updated_at = #{updatedAt}
+        WHERE id IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+    </update>
+    <update id="deleteById" parameterType="com.zsj.account.entity.AccountEntity">
+        UPDATE account
+        SET is_deleted = 1, updated_at = #{updatedAt}
+        WHERE id = #{id}
+
+    </update>
+    <update id="deleteByIdV1">
+        UPDATE account
+        SET is_deleted = 1, updated_at = #{updated_at}
+        WHERE id = #{accountId}
+
+    </update>
+    <update id="deleteByIdV2">
+        UPDATE account
+        SET is_deleted = 1, updated_at = #{1}
+        WHERE id = #{0}
+
+    </update>
+</mapper>
