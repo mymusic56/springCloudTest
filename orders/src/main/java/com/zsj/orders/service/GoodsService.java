@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "goods-service", fallbackFactory = GoodsServiceFallbackFactory.class)
 public interface GoodsService {
-    @GetMapping("/goods/info")
+    @GetMapping("/goods/goods/info")
     public String info(@RequestParam("goodsId") int id);
 
-    @PostMapping("/goods/updateStock")
+    @PostMapping("/goods/goods/updateStock")
     String updateStock(@RequestParam("goodsId") int goodsId, @RequestParam("num") int num);
 }

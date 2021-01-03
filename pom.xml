@@ -37,7 +37,8 @@
         <spring-cloud-bus.version>2.1.4.RELEASE</spring-cloud-bus.version>
         <sprint-cloud-seata-spring-boot-starter.version>1.4.0</sprint-cloud-seata-spring-boot-starter.version>
         <spring-cloud-seata-alibaba-stater.version>2.1.2.RELEASE</spring-cloud-seata-alibaba-stater.version>
-        <mybatis-plus.version>3.3.2</mybatis-plus.version>
+        <mybatis-plus.version>3.4.1</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
         <mysql.version>5.1.47</mysql.version>
         <encoding>UTF-8</encoding>
         <maven.compiler.source>1.8</maven.compiler.source>

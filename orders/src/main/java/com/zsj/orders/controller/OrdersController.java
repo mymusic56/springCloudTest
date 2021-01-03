@@ -3,9 +3,10 @@ package com.zsj.orders.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zsj.orders.entity.AccountEntity;
 import com.zsj.orders.entity.GoodsEntity;
+import com.zsj.orders.exception.LogicException;
 import com.zsj.orders.service.GoodsService;
 import com.zsj.common.utils.DateUtil;
-import com.zsj.common.utils.ResultUtil;
+import com.zsj.common.utils.ResultData;
 import com.zsj.orders.service.AccountService;
 import com.zsj.orders.dto.OrderDTO;
 import com.zsj.orders.dto.OrderGoodsDTO;
@@ -40,7 +41,7 @@ public class OrdersController {
     private OrdersGoodsMapper ordersGoodsMapper;
 
     @GetMapping("info/{orderId}")
-    public String info(@PathVariable("orderId") int orderId) {
+    public ResultData info(@PathVariable("orderId") int orderId) {
         Map<String, Object> map = new HashMap<>();
 
         //調用account-service
@@ -53,7 +54,7 @@ public class OrdersController {
             map.put("accountInfoString", accountInfo);
 
             Map<String, Object> accountRes = JSONObject.parseObject(accountInfo);
-            if ((int)accountRes.get("status") == 200) {
+            if ((int) accountRes.get("status") == 200) {
                 AccountEntity entity = JSONObject.parseObject(accountInfo, AccountEntity.class);
                 map.put("accountInfo", entity);
             }
@@ -68,28 +69,27 @@ public class OrdersController {
             map.put("goodsInfoString", goodsInfo);
 
             Map<String, Object> goodsInfoRes = JSONObject.parseObject(goodsInfo);
-            if ((int)goodsInfoRes.get("status") == 200) {
+            if ((int) goodsInfoRes.get("status") == 200) {
                 GoodsEntity entity = JSONObject.parseObject(goodsInfo, GoodsEntity.class);
                 map.put("goodsInfo", entity);
             }
         }
 
 
-
-        return ResultUtil.json(200, "success", map);
+        return ResultData.success("success", map);
     }
 
     @PostMapping("create")
     @GlobalTransactional(timeoutMills = 30000, name = "spring-cloud-demo-tx")
-    public String create(@RequestParam Map<String, Object> param) throws Exception {
+    public ResultData create(@RequestParam Map<String, Object> param) throws Exception {
 
         int accountId = 1;
 
         String res = accountService.findById(accountId);
 
         JSONObject jsonObject = JSONObject.parseObject(res);
-        if ((int)jsonObject.get("status") != 200 || jsonObject.get("data") == null) {
-            return ResultUtil.json(500, "账户信息获取失败，" + jsonObject.get("message"), jsonObject.get("data"));
+        if ((int) jsonObject.get("status") != 200 || jsonObject.get("data") == null) {
+            return ResultData.error(500, "账户信息获取失败，" + jsonObject.get("message"), jsonObject.get("data"));
         }
         AccountVO accountVO = jsonObject.getObject("data", AccountVO.class);
 
@@ -118,31 +118,29 @@ public class OrdersController {
 
         int orderId = orderDTO.getId();
         if (orderId == 0) {
-            return ResultUtil.json(500, "订单保存失败", null);
+            throw new LogicException("订单保存失败");
         }
 
         goodsDTO.setOrderId(orderId);
 
         ordersGoodsMapper.insert(goodsDTO);
         if (goodsDTO.getGoodsId() == 0) {
-            return ResultUtil.json(500, "订单商品保存失败", null);
+            throw new LogicException("订单商品保存失败");
         }
 
         //扣减金额
         String accountResult = accountService.updateAmount(accountId, orderDTO.getAmount());
         JSONObject accountResultJsonObject = JSONObject.parseObject(accountResult);
-        if ((int)accountResultJsonObject.get("status") != 200) {
-            return ResultUtil.json(500, "账户金额扣减失败，" + accountResultJsonObject.get("message"), accountResultJsonObject.get("data"));
+        if ((int) accountResultJsonObject.get("status") != 200) {
+            throw new LogicException("账户金额扣减失败" + accountResultJsonObject.get("message"));
         }
         //扣减库存
         String goodsResult = goodsService.updateStock(goodsDTO.getGoodsId(), goodsDTO.getNum());
         JSONObject goodsResultJsonOjbect = JSONObject.parseObject(goodsResult);
-        if ((int)goodsResultJsonOjbect.get("status") != 200) {
-            throw new Exception("库存扣减失败");
-
-//            return ResultUtil.json(500, "库存扣减失败，" + goodsResultJsonOjbect.get("message"), goodsResultJsonOjbect.get("data"));
+        if ((int) goodsResultJsonOjbect.get("status") != 200) {
+            throw new LogicException("库存扣减失败" + goodsResultJsonOjbect.get("message"));
         }
-        return ResultUtil.json(200, "创建成功", orderDTO);
+        return ResultData.success("创建成功", orderDTO);
     }
 
 }

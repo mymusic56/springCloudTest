@@ -1,9 +1,8 @@
 package com.zsj.common.utils;
 
+import java.util.HashMap;
+
 public class ResultUtil {
 
-    public static String json(int status, String message, Object data) {
-        return new ResultData<Object>(status, message, data).toJson();
-    }
 
 }
