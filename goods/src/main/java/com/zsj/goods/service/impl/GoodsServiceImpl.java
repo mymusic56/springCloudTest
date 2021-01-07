@@ -148,7 +148,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             return ResultData.error("请选择商品图片！");
         }
         String errorMsg = "";
-        JSONArray albumArr = JSONObject.parseArray(goodsAlbumStr);
+        List<GoodsAlbum> albumArr = null;
+        try {
+            albumArr = JSONObject.parseArray(goodsAlbumStr, GoodsAlbum.class);
+        } catch (Exception e) {
+            return ResultData.error("商品相册数据解析失败！");
+        }
 
         if (albumArr.size() > 9) {
             return ResultData.error("商品相册图片不能超过9张！");
@@ -157,8 +162,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
         List<GoodsAlbum> realList = new ArrayList<>();
         int ordinal = albumArr.size();
         for (int i = 0; i < albumArr.size(); i++) {
-            JSONObject jsonObject = albumArr.getJSONObject(i);
-            String img = jsonObject.getString("img");
+            GoodsAlbum jsonObject = albumArr.get(i);
+            String img = jsonObject.getImg();
             if (img == null || "".equals(img)) {
                 continue;
             }
@@ -171,7 +176,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
                 continue;
             }
             GoodsAlbum goodsAlbum = new GoodsAlbum();
-            goodsAlbum.setId(Integer.parseInt((String) jsonObject.get("id")));
+            goodsAlbum.setId(jsonObject.getId());
             goodsAlbum.setGoodsId(goodsId);
             goodsAlbum.setOrdinal(ordinal);//处理排序，按照数据传入的顺序进行排列
             goodsAlbum.setImgType(2);//图片类型
@@ -248,7 +253,6 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
         List<Integer> deleteIds = new ArrayList<>();
         List<GoodsAlbum> newAddList = new ArrayList<>();
-        List<Integer> updateIds = new ArrayList<>();
 
         for (int i = 0; i < newGoodsAlbumList.size(); i++) {
             GoodsAlbum goodsAlbum = newGoodsAlbumList.get(i);
@@ -261,10 +265,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             if (tmp != null) {
                 goodsAlbumListMap.remove(goodsAlbum.getId());//剩下的就是需要删除的
                 //更新
-                updateIds.add(goodsAlbum.getId());
                 goodsAlbum.setUpdatedAt(DateUtil.getTimestamp());
                 goodsAlbumMapper.updateById(goodsAlbum);
-                continue;
             }
         }
         //删除
