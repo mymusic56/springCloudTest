@@ -33,7 +33,7 @@ spring:
             rule-type: degrade
 #    alibaba:
 #      seata:
-        #是服务组名称，与nacos-config.txt 配置的service.vgroup_mapping.${your-service-gruop}具有对应关系
+        #是服务组名称，与nacos-handler.txt 配置的service.vgroup_mapping.${your-service-gruop}具有对应关系
         # 该配置转到 application-seata.yml中tx-service-group: ${spring.application.name}-tx-service-group
   datasource:
     url: jdbc:mysql://home.mytest.com:3306/cloud_orders
@@ -43,8 +43,8 @@ spring:
   profiles:
     include: seata
     #mybatis:
-  # config-location 和 configuration不能同时定义
-  #  config-location: classpath:mybatis/mybatis-config.xml
+  # handler-location 和 configuration不能同时定义
+  #  handler-location: classpath:mybatis/mybatis-handler.xml
     #  type-aliases-package: com.zsj.orders.mybatis.mapper
 #  mapper-locations: classpath:mybatis/mapper/*.xml
 mybatis-plus:
@@ -61,7 +61,7 @@ feign:
   sentinel:
     enabled: true
 #  client:
-#    config:
+#    handler:
 #      default:
 #        connectTimeout: 5000
 #        readTimeout: 5000

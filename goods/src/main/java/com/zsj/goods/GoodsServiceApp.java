@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @EnableDiscoveryClient
 @MapperScan("com.zsj.goods.mapper")
+@ComponentScan(value = {"com.zsj.common", "com.zsj.goods"})
 public class GoodsServiceApp {
     public static void main(String[] args) {
         SpringApplication.run(GoodsServiceApp.class, args);

@@ -1,6 +1,7 @@
 package com.zsj.goods.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.zsj.goods.entity.Base;
 import lombok.Data;
@@ -65,7 +66,8 @@ public class GoodsAlbum extends Base {
     /**
      * 是否删除
      */
-    private Boolean isDeleted;
+    @TableLogic
+    private Integer isDeleted;
 
 
 }

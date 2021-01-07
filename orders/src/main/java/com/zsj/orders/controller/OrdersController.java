@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/orders")
@@ -79,6 +77,17 @@ public class OrdersController {
         return ResultData.success("success", map);
     }
 
+    @GetMapping("goodsList")
+    public ResultData goodsList(String ids) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("ids", ids);
+        ResultData res = goodsService.goodsList(param);
+        if (res.getStatus() != 200) {
+            return ResultData.error("商品中心接口调用失败（" + res.getMessage() + ")");
+        }
+        return ResultData.success("", res.getData());
+    }
+
     @PostMapping("create")
     @GlobalTransactional(timeoutMills = 30000, name = "spring-cloud-demo-tx")
     public ResultData create(@RequestParam Map<String, Object> param) throws Exception {
@@ -108,7 +117,7 @@ public class OrdersController {
 
 
         OrderGoodsDTO goodsDTO = new OrderGoodsDTO();
-        goodsDTO.setGoodsId(1);
+        goodsDTO.setGoodsId(Integer.parseInt((String) param.get("goodsId")));
         goodsDTO.setGoodsName("测试商品");
         goodsDTO.setGoodsSn("G12345");
         goodsDTO.setNum(2);

@@ -83,7 +83,7 @@ public class Category extends Base {
     /**
      * 是否删除 0为否 1为是
      */
-    private Boolean isDeleted;
+    private Integer isDeleted;
 
 
 }

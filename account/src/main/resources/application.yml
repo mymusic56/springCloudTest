@@ -36,8 +36,8 @@ mybatis-plus:
     # 在控制台打印日志
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #mybatis:
-  # config-location 和 configuration不能同时定义
-#  config-location: classpath:mybatis/mybatis-config.xml
+  # handler-location 和 configuration不能同时定义
+#  handler-location: classpath:mybatis/mybatis-handler.xml
 #  type-aliases-package: com.zsj.account.mybatis.mapper
 #  mapper-locations: classpath:mybatis/mapper/*.xml
 #  configuration:

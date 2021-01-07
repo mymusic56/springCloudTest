@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public ResultData handleHttpRequestMethodNotSupportedException(Exception e) {
-        log.error("请求方法不存在"+e.getMessage());
+        log.error("请求类型错误"+e.getMessage());
         return ResultData.error(500, "请求类型错误");
     }
 
@@ -64,11 +64,12 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = BindException.class)
     public ResultData validationExceptionHandler(BindException e) {
-        log.error("---------------------------");
         BindingResult bindingResult = e.getBindingResult();
         String errorMesssage = "";
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            errorMesssage += fieldError.getDefaultMessage() + "!";
+            log.error("---------------------------" + fieldError.getDefaultMessage());
+            errorMesssage = fieldError.getDefaultMessage();
+            break;
         }
         return ResultData.error(410, errorMesssage);
     }

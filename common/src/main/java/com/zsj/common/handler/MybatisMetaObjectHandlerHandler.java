@@ -1,14 +1,18 @@
-package com.zsj.common.config;
+package com.zsj.common.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.zsj.common.utils.DateUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MybatisMetaObjectHandlerConfig implements MetaObjectHandler {
+@Slf4j
+public class MybatisMetaObjectHandlerHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
+        log.info("metaObject_insertFill-------------------------");
+
         Object createdAt = null;
         Object isDeleted = null;
         Object isDisabled = null;
@@ -34,6 +38,7 @@ public class MybatisMetaObjectHandlerConfig implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
+        log.info("metaObject_updateFill-------------------------");
         Object updatedAt = null;
         if (metaObject.hasGetter("updatedAt")) {
             updatedAt = getFieldValByName("updatedAt", metaObject);

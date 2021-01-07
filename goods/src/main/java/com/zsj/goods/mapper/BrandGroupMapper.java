@@ -12,5 +12,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-01-01
  */
 public interface BrandGroupMapper extends BaseMapper<BrandGroup> {
+    public int updateDisabled(Integer id, Integer isDisabled, int updatedAt);
 
+    /**
+     * @param name
+     * @param excludeId
+     * @return
+     */
+    public int getByName(String name, int excludeId);
 }

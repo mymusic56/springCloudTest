@@ -8,8 +8,8 @@ import javax.validation.constraints.*;
 @Data
 public class BrandGroupDeleteValidator {
     @NotNull(message = "ID不能为空！")
-    @Positive(message = "必须是正整数！")
-    private int id;
+    @Positive(message = "ID必须是正整数！")
+    private String id;
 
 //    @NotBlank
 //    @Size(min = 0, max = 1, message = "请输入正确的状态值")

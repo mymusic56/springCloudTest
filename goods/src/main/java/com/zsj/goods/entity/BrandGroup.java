@@ -1,10 +1,7 @@
 package com.zsj.goods.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.zsj.goods.entity.Base;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -63,5 +60,6 @@ public class BrandGroup extends Base {
     @TableField(fill = FieldFill.INSERT)
     private Integer isDisabled;
 
-
+    @TableField(exist = false)
+    private String isDisabledStr;
 }

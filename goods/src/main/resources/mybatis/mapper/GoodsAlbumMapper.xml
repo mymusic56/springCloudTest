@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zsj.goods.mapper.GoodsAlbumMapper">
+    <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO dn_goods_album(goods_id,ordinal,img_type,img,created_at) VALUES
+        <foreach collection="goodsAlbumList" item="item" separator=",">
+            (#{item.goodsId},#{item.ordinal},#{item.imgType},#{item.img},#{item.createdAt})
+        </foreach>
+    </insert>
+    <delete id="deleteByIds">
+        DELETE FROM dn_goods_album WHERE id IN
+        <foreach collection="idList" item="id" open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 
     <select id="selectByGoodsId" resultType="com.zsj.goods.entity.GoodsAlbum">
         select * from dn_goods_album where goods_id = #{goodsId}

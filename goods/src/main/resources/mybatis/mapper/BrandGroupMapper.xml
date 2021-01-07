@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zsj.goods.mapper.BrandGroupMapper">
+    <update id="updateDisabled">
+        UPDATE dn_brand_group SET is_disabled=#{isDisabled},updated_at=#{updatedAt} WHERE id=#{id}
+    </update>
 
+    <select id="getByName" resultType="java.lang.Integer">
+        SELECT COUNT(*) c FROM dn_brand_group WHERE group_name =#{name}
+        <if test="excludeId > 0">
+            AND id != #{excludeId}
+        </if>
+    </select>
 </mapper>

@@ -12,5 +12,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-01-01
  */
 public interface GoodsMapper extends BaseMapper<Goods> {
-    public Goods findById(int id);
+    Goods findById(int id);
+
+    Goods findIdByGoodsCodeExcludeId(String goodsCode, int excludeId);
+    Goods findIdByGoodsNameExcludeId(String goodsName, int excludeId);
+    Goods findByGoodsCode(String goodsCode);
+
 }

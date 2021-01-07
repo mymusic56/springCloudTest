@@ -15,4 +15,8 @@ import java.util.List;
  */
 public interface GoodsAlbumMapper extends BaseMapper<GoodsAlbum> {
     List<GoodsAlbum> selectByGoodsId(int goodsId);
+
+    int insertBatch(List<GoodsAlbum> goodsAlbumList);
+
+    int deleteByIds(List<Integer> idList);
 }

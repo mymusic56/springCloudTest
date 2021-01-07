@@ -122,7 +122,7 @@ public class Goods extends Base {
     /**
      * 排序号 数字越大越靠前
      */
-    private Boolean ordinal;
+    private Integer ordinal;
 
     /**
      * 销售数量（罐数） 提交订单就记数 取消订单 就减去对应的数量
@@ -163,11 +163,4 @@ public class Goods extends Base {
      * 单位：一箱多少听
      */
     private Integer unitConTin;
-
-    /**
-     * 库存
-     */
-    private Integer num;
-
-
 }

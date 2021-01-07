@@ -1,22 +1,16 @@
 package com.zsj.goods.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zsj.common.utils.ResultData;
 import com.zsj.common.utils.ToolUtil;
-import com.zsj.goods.config.Config;
 import com.zsj.goods.entity.Brand;
 import com.zsj.goods.mapper.BrandMapper;
 import com.zsj.goods.service.impl.BrandServiceImpl;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import com.zsj.goods.controller.BaseController;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -39,9 +33,6 @@ public class BrandController extends BaseController {
     @Resource
     private BrandMapper brandMapper;
 
-    @Autowired
-    Config config;
-
     @GetMapping("list")
     public ResultData dataList(@RequestParam Map<String, Object> params) {
         int currentPage = Integer.parseInt(params.getOrDefault("page", 1).toString());
@@ -59,7 +50,7 @@ public class BrandController extends BaseController {
         //3.4.1支持， 3.3.2不支持
         Page<Brand> page = brandService.page(new Page<Brand>(currentPage, pageSize), wrapper);
         page.getRecords().forEach(item -> {
-            item.setImgPath(ToolUtil.getRealUrl(config.getImgHost(), item.getImg()));
+            item.setImgPath(ToolUtil.getRealUrl(item.getImg()));
         });
         Map<String, Object> map = new HashMap<>();
 

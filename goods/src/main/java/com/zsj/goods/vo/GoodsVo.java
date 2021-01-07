@@ -79,7 +79,7 @@ public class GoodsVo{
     /**
      * 排序号 数字越大越靠前
      */
-    private Boolean ordinal;
+    private Integer ordinal;
 
     /**
      * 销售数量（罐数） 提交订单就记数 取消订单 就减去对应的数量

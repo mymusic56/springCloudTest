@@ -40,7 +40,7 @@ public class GoodsAttribute extends Base {
      */
     private Integer attrItemId;
 
-    private Boolean isDeleted;
+    private Integer isDeleted;
 
 
 }

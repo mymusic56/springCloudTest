@@ -6,13 +6,12 @@
         <!--<result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>-->
         <!--<result column="goods_sn" property="goodsSn" jdbcType="VARCHAR"/>-->
         <!--<result column="goods_code" property="goodsCode" jdbcType="VARCHAR"/>-->
-        <!--<result column="num" property="num" javaType="INT"/>-->
         <!--<result column="updated_at" property="updatedAt" javaType="INT"/>-->
         <!--<result column="created_at" property="createdAt" javaType="INT"/>-->
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, goods_sn, goods_name,num
+        id, goods_code, goods_sn, goods_name
     </sql>
 
     <select id="findById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -21,12 +20,21 @@
         FROM dn_goods
         WHERE id = #{id}
     </select>
+    <select id="findByGoodsCode" resultType="com.zsj.goods.entity.Goods">
+        SELECT * FROM dn_goods WHERE goods_code = #{goodsCode}
+    </select>
+    <select id="findIdByGoodsCodeExcludeId" resultType="com.zsj.goods.entity.Goods">
+        SELECT id FROM dn_goods WHERE goods_code = #{goodsCode} AND id != #{excludeId}
+    </select>
+    <select id="findIdByGoodsNameExcludeId" resultType="com.zsj.goods.entity.Goods">
+        SELECT id FROM dn_goods WHERE goods_name = #{goodsName}  AND id != #{excludeId}
+    </select>
 
     <insert id="insert" parameterType="com.zsj.goods.entity.Goods" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO
-          dn_goods (goods_code,goods_sn, goods_name,num,created_at)
+          dn_goods (goods_code,goods_sn, goods_name,created_at)
         VALUES
-          (#{goodsCode}, #{goodsSn}, #{goodsName}, #{num}, #{createdAt})
+          (#{goodsCode}, #{goodsSn}, #{goodsName}, #{createdAt})
     </insert>
 
     <update id="update" parameterType="com.zsj.goods.entity.GoodsEntity">
@@ -36,9 +44,6 @@
         </if>
         <if test="goodsName != null and goodsName != ''">
             goods_name = #{goodsName},
-        </if>
-        <if test="num != null and num != ''">
-            num = #{num},
         </if>
         updated_at = #{updatedAt}
         WHERE id = #{id}
