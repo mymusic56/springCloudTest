@@ -1,0 +1,8 @@
+custom-config:
+  uploadsDir: "D:\\workspace-Java\\my_project\\springCloudTest\\uploads"
+  imgHost: http://static.mytest.com
+  #主数据
+  mainDataClientId:
+  mainDataSecret:
+  mainDataExpires:
+  mainDataBaseUrl:
