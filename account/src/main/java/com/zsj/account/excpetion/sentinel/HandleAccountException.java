@@ -3,8 +3,8 @@ package com.zsj.account.excpetion.sentinel;
 import com.alibaba.cloud.sentinel.rest.SentinelClientHttpResponse;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.netflix.client.http.HttpRequest;
-import com.zsj.common.utils.ResultData;
-import com.zsj.common.utils.ResultData;
+import com.zsj.lib.utils.ResultData;
+import com.zsj.lib.utils.ResultData;
 import org.springframework.http.client.ClientHttpRequestExecution;
 
 public class HandleAccountException {

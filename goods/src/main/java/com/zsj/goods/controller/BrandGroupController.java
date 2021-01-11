@@ -1,8 +1,8 @@
 package com.zsj.goods.controller;
 
 
-import com.zsj.common.utils.DateUtil;
-import com.zsj.common.utils.ResultData;
+import com.zsj.lib.utils.DateUtil;
+import com.zsj.lib.utils.ResultData;
 import com.zsj.goods.entity.BrandGroup;
 import com.zsj.goods.mapper.BrandGroupMapper;
 import com.zsj.goods.service.impl.BrandGroupServiceImpl;

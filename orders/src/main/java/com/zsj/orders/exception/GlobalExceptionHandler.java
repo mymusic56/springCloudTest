@@ -1,6 +1,6 @@
 package com.zsj.orders.exception;
 
-import com.zsj.common.utils.ResultData;
+import com.zsj.lib.utils.ResultData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;

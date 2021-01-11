@@ -1,6 +1,6 @@
 package com.zsj.goods.exception.sentinel;
 
-import com.zsj.common.utils.ResultData;
+import com.zsj.lib.utils.ResultData;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

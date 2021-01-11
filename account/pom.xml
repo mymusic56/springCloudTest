@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.zsj</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>lib</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!--Spring Boot-->

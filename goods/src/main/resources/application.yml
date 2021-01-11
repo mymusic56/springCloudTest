@@ -52,3 +52,7 @@ logging:
   level:
     # 打印SQL
     com.zsj.account.mybatis.mapper: debug
+  # 怎么没有生效
+  file:
+    max-size: 1MB
+    max-history: 20

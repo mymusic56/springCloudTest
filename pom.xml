@@ -21,6 +21,7 @@
         <module>orders</module>
         <module>goods</module>
         <module>common</module>
+        <module>lib</module>
     </modules>
 
     <properties>

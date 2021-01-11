@@ -1,6 +1,6 @@
 package com.zsj.orders.entity;
 
-import com.zsj.common.utils.DateUtil;
+import com.zsj.lib.utils.DateUtil;
 import lombok.Getter;
 import lombok.Setter;
 

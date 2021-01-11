@@ -4,7 +4,7 @@ spring:
   application:
     name: account-service
   datasource:
-    url: jdbc:mysql://home.mytest.com:3306/cloud_account?useSSL=false
+    url: jdbc:mysql://home.mytest.com:3308/cloud_account?useSSL=false
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver

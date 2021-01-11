@@ -1,6 +1,6 @@
 package com.zsj.orders.service.fallback;
 
-import com.zsj.common.utils.ResultData;
+import com.zsj.lib.utils.ResultData;
 import com.zsj.orders.service.GoodsService;
 
 import java.util.Map;

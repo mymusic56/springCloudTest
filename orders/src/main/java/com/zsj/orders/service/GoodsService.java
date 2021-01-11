@@ -1,6 +1,6 @@
 package com.zsj.orders.service;
 
-import com.zsj.common.utils.ResultData;
+import com.zsj.lib.utils.ResultData;
 import com.zsj.orders.service.fallback.GoodsServiceFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -17,5 +17,6 @@ public interface GoodsMapper extends BaseMapper<Goods> {
     Goods findIdByGoodsCodeExcludeId(String goodsCode, int excludeId);
     Goods findIdByGoodsNameExcludeId(String goodsName, int excludeId);
     Goods findByGoodsCode(String goodsCode);
+    Goods insertGoods(Goods goods);
 
 }

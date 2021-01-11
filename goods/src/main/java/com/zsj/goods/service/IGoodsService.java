@@ -1,6 +1,6 @@
 package com.zsj.goods.service;
 
-import com.zsj.common.utils.ResultData;
+import com.zsj.lib.utils.ResultData;
 import com.zsj.goods.entity.Goods;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zsj.goods.entity.GoodsAlbum;

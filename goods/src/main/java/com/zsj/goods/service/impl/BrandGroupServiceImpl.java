@@ -2,11 +2,11 @@ package com.zsj.goods.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zsj.common.consts.DateFormatConst;
-import com.zsj.common.enums.StatusRemark;
-import com.zsj.common.utils.DateUtil;
-import com.zsj.common.utils.ParamUtil;
-import com.zsj.common.utils.ToolUtil;
+import com.zsj.lib.consts.DateFormatConst;
+import com.zsj.lib.enums.StatusRemark;
+import com.zsj.lib.utils.DateUtil;
+import com.zsj.lib.utils.ParamUtil;
+import com.zsj.lib.utils.ToolUtil;
 import com.zsj.goods.entity.BrandGroup;
 import com.zsj.goods.mapper.BrandGroupMapper;
 import com.zsj.goods.service.IBrandGroupService;

@@ -3,13 +3,13 @@ package com.zsj.goods.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zsj.common.client.maindata.MaindDataApiImpl;
-import com.zsj.common.client.maindata.bean.GoodsSpecsBean;
-import com.zsj.common.handler.CustomConfigHandler;
-import com.zsj.common.utils.DateUtil;
-import com.zsj.common.utils.ParamUtil;
-import com.zsj.common.utils.ResultData;
-import com.zsj.common.utils.ToolUtil;
+import com.zsj.lib.client.maindata.MaindDataApiImpl;
+import com.zsj.lib.client.maindata.bean.GoodsSpecsBean;
+import com.zsj.lib.handler.CustomConfigHandler;
+import com.zsj.lib.utils.DateUtil;
+import com.zsj.lib.utils.ParamUtil;
+import com.zsj.lib.utils.ResultData;
+import com.zsj.lib.utils.ToolUtil;
 import com.zsj.goods.entity.*;
 import com.zsj.goods.mapper.*;
 import com.zsj.goods.service.IGoodsService;
@@ -116,7 +116,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public ResultData checkGoodsParam(Map<String, Object> param, int id) {
         //商品名字是否重复
         Goods g1 = goodsMapper.findIdByGoodsNameExcludeId((String) param.get("goodsName"), id);
-        if (g1 != null) {
+        if (g1 != null && g1.getId() > 0) {
             return ResultData.error("商品名称已存在！");
         }
 
@@ -213,14 +213,12 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
 
     @Override
     public int saveGoods(Goods goods, Map<String, Object> param, int id) {
-
-        //检测更新字段
-        Map<String, Object> update = ParamUtil.checkUpdatedFiled(goods, param);
-        log.info("商品表更新字段：" + JSONObject.toJSONString(update));
-
+        if (goods == null) {
+            goods = new Goods();
+        }
         goods.setGoodsCode((String) param.get("goodsCode"));
         goods.setGoodsName((String) param.get("goodsName"));
-        goods.setOrdinal((Integer) param.get("ordinal"));
+        goods.setOrdinal(Integer.parseInt((String) param.get("ordinal")));
         goods.setCatId(Integer.parseInt((String) param.get("catId")));
         goods.setBrandId(Integer.parseInt((String) param.get("brandId")));
         goods.setIsOnsale(Integer.parseInt((String) param.get("isOnsale")));

@@ -2,28 +2,32 @@ package com.zsj.goods.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zsj.common.utils.DateUtil;
-import com.zsj.common.utils.ParamUtil;
-import com.zsj.common.utils.ResultData;
-import com.zsj.common.utils.ToolUtil;
+import com.zsj.goods.feign.ActionLogFeign;
+import com.zsj.lib.handler.SpringContextHandler;
+import com.zsj.lib.utils.DateUtil;
+import com.zsj.lib.utils.ParamUtil;
+import com.zsj.lib.utils.ResultData;
+import com.zsj.lib.utils.ToolUtil;
 import com.zsj.goods.entity.Goods;
 import com.zsj.goods.entity.GoodsAlbum;
 import com.zsj.goods.exception.LogicException;
-import com.zsj.goods.exception.sentinel.HandleGoodsException;
-import com.zsj.goods.entity.GoodsEntity;
 import com.zsj.goods.mapper.GoodsMapper;
 import com.zsj.goods.service.IGoodsService;
-import com.zsj.goods.service.impl.GoodsServiceImpl;
 import com.zsj.goods.vo.GoodsVo;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cloud.openfeign.SpringQueryMap;
+import org.springframework.http.HttpRequest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +43,9 @@ public class GoodsController {
 
     @Autowired
     private IGoodsService goodsService;
+
+    @Autowired
+    private ActionLogFeign actionLogFeign;
 
     @GetMapping(value = "/info")
     @SentinelResource(
@@ -112,13 +119,14 @@ public class GoodsController {
     }
 
     @PostMapping("edit")
-    @Transactional
-    public ResultData edit(@RequestParam Map<String, Object> param) {
-
+    @GlobalTransactional(timeoutMills = 30000, name = "spring-cloud-goods-edit-tx")
+    public ResultData edit(@RequestParam Map<String, Object> param) throws LogicException {
         int id = ParamUtil.getInt("goodsId", param, 0);
         Goods goods = null;
+        String actionName = "新增";
         if (id > 0) {
             goods = goodsService.getById(id);
+            actionName = "编辑";
         }
         param.put("goods", goods);
         param.put("id", id);
@@ -142,13 +150,30 @@ public class GoodsController {
             return resultData;
         }
         //保存商品信息
+        //检测更新字段
+        Map<String, Object> update = ParamUtil.checkUpdatedFiled(goods, param);
+        log.info("商品表更新字段：" + JSONObject.toJSONString(update));
         goodsService.saveGoods(goods, param, id);
 
         //更新相册
         goodsService.saveGoodsAlbum(id, goodsAlbumList);
 
         //更新操作日志
-
+        Map<String, Object> log = new HashMap<>();
+        log.put("accountId", 1);
+        log.put("actionId", 1);
+        log.put("moduleId", 1);
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        log.put("uri", request.getRequestURI());
+        log.put("username", "root");
+        log.put("resourceSn", id);
+        log.put("ip", request.getRemoteAddr());
+        log.put("content", update.toString());
+        log.put("actionName", actionName);
+        ResultData logRes = actionLogFeign.save(log);
+        if (logRes.getStatus() != 200) {
+            throw new LogicException("日志保存失败：" + logRes.getMessage());
+        }
         return ResultData.success();
     }
 

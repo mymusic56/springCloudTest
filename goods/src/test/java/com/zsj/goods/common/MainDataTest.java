@@ -1,8 +1,8 @@
 package com.zsj.goods.common;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zsj.common.client.maindata.MaindDataApiImpl;
-import com.zsj.common.client.maindata.bean.GoodsSpecsBean;
+import com.zsj.lib.client.maindata.MaindDataApiImpl;
+import com.zsj.lib.client.maindata.bean.GoodsSpecsBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
