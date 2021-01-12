@@ -22,6 +22,7 @@
         <module>goods</module>
         <module>common</module>
         <module>lib</module>
+        <module>getway</module>
     </modules>
 
     <properties>
@@ -31,10 +32,12 @@
         <spring-cloud-commons.version>2.1.5.RELEASE</spring-cloud-commons.version>
         <spring-cloud-config.version>2.1.7.RELEASE</spring-cloud-config.version>
         <spring-cloud-gateway.version>2.1.5.RELEASE</spring-cloud-gateway.version>
+        <spring-cloud-starter-gateway.version>2.1.5.RELEASE</spring-cloud-starter-gateway.version>
         <spring-cloud-netflix.version>2.1.5.RELEASE</spring-cloud-netflix.version>
         <spring-cloud-netflix-ribbon.version>2.1.5.RELEASE</spring-cloud-netflix-ribbon.version>
         <spring-cloud-openfeign.version>2.1.5.RELEASE</spring-cloud-openfeign.version>
-        <spring-cloud-alibaba-nacos-discovery.version>2.1.3.RELEASE</spring-cloud-alibaba-nacos-discovery.version>
+        <spring-cloud-alibaba-nacos-discovery.version>2.1.2.RELEASE</spring-cloud-alibaba-nacos-discovery.version>
+        <spring-cloud-alibaba-nacos-config.version>2.1.2.RELEASE</spring-cloud-alibaba-nacos-config.version>
         <spring-cloud-bus.version>2.1.4.RELEASE</spring-cloud-bus.version>
         <sprint-cloud-seata-spring-boot-starter.version>1.4.0</sprint-cloud-seata-spring-boot-starter.version>
         <spring-cloud-seata-alibaba-stater.version>2.1.2.RELEASE</spring-cloud-seata-alibaba-stater.version>

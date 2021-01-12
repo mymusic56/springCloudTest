@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: getway-service
+  cloud:
+    nacos:
+      config:
+        server-addr: home.mytest.com:8848
+        username: nacos
+        password: nacos
+        file-extension: yml
+        name: getway-application
+      discovery:
+        secure: false
