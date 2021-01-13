@@ -9,7 +9,10 @@ import com.zsj.lib.utils.ToolUtil;
 import com.zsj.goods.entity.Brand;
 import com.zsj.goods.mapper.BrandMapper;
 import com.zsj.goods.service.impl.BrandServiceImpl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,6 +29,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/goods/brand")
+@Api(tags = "商品品牌模块")
 public class BrandController extends BaseController {
     @Autowired
     private BrandServiceImpl brandService;
@@ -33,10 +37,13 @@ public class BrandController extends BaseController {
     @Resource
     private BrandMapper brandMapper;
 
+    @Value("${custom-config.pageSize}")
+    private int pageSize;
+
     @GetMapping("list")
+    @ApiOperation(value = "品牌列表")
     public ResultData dataList(@RequestParam Map<String, Object> params) {
         int currentPage = Integer.parseInt(params.getOrDefault("page", 1).toString());
-        int pageSize = Integer.parseInt(params.getOrDefault("pageSize", 10).toString());
 
         QueryWrapper<Brand> wrapper = new QueryWrapper<>();
         wrapper.eq("is_deleted", 0).orderByDesc("ordinal");
@@ -65,7 +72,6 @@ public class BrandController extends BaseController {
     @GetMapping("listV2")
     public ResultData dataListV2(@RequestParam Map<String, Object> params) {
         int currentPage = Integer.parseInt(params.getOrDefault("page", 1).toString());
-        int pageSize = Integer.parseInt(params.getOrDefault("pageSize", 10).toString());
 
         QueryWrapper<Brand> wrapper = new QueryWrapper<>();
         wrapper.eq("is_deleted", 0).orderByDesc("ordinal");

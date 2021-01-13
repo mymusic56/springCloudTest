@@ -35,7 +35,7 @@ spring:
         max-active: 5
         max-idle: 3
   profiles:
-    include: seata,custom-config
+    include: seata,custom-config,swagger
 mybatis-plus:
   mapper-locations: classpath:mybatis/mapper/*.xml
   configuration:

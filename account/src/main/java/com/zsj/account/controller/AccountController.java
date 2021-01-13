@@ -9,6 +9,10 @@ import com.zsj.account.service.AccountService;
 import com.zsj.account.excpetion.sentinel.HandleAccountException;
 import com.zsj.lib.utils.DateUtil;
 import com.zsj.lib.utils.ResultData;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/account")
 @Slf4j
+@Api(tags = "账户模块")
 public class AccountController {
 
     @Autowired
@@ -37,7 +42,9 @@ public class AccountController {
             blockHandlerClass = HandleAccountException.class,
             blockHandler = "handleInfoException"
     )
-    public ResultData findById(@RequestParam("accountId") int accountId){
+    @ApiOperation(value = "账户查询")
+    @ApiImplicitParam(name = "accountId", value = "账户ID", required = true, dataType = "int")
+    public ResultData<AccountEntity> findById(@RequestParam("accountId") int accountId){
         if (DateUtil.getTimestamp() % 2 == 0) {
 //            throw new RuntimeException("模拟异常发生！");
         }
@@ -49,7 +56,7 @@ public class AccountController {
     }
 
     @PostMapping("updateAmount")
-    public ResultData updateAmount(@RequestParam("accountId") int accountId, @RequestParam("amount") double amount) {
+    public ResultData updateAmount(@RequestParam("accountId") int accountId, @RequestParam("amount") float amount) {
         AccountEntity entity = accountMapper.findById(accountId);
         if (entity == null) {
             return ResultData.error(500, "用户不存在", null);

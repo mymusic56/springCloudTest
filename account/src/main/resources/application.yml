@@ -29,7 +29,7 @@ spring:
             group-id: DEFAULT_GROUP
             rule-type: flow
   profiles:
-    include: dev,seata
+    include: dev,seata,swagger
 mybatis-plus:
   mapper-locations: classpath:mybatis/mapper/*.xml
   configuration:

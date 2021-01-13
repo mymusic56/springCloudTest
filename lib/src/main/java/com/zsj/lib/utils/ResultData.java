@@ -2,6 +2,9 @@ package com.zsj.lib.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,10 +14,14 @@ import java.util.List;
 
 @Getter
 @Setter
+@ApiModel
 public class ResultData<T> {
+    @ApiModelProperty(value = "状态码")
     private int status;
+    @ApiModelProperty(value = "返回信息")
     private String message;
     private String error;
+    @ApiModelProperty(value = "数据集合")
     private T data;
 
     protected ResultData(int status, String message, T data){

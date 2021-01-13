@@ -1,0 +1,11 @@
+swagger:
+  enabled: true
+  version: 1.0.0
+  title: account-service接口文档
+  description: account-service接口文档
+  contactName: SpringCloud测试
+  contactUrl: http://home.mytest.com
+  contactEmail: zhangshengji@163.com
+  termsOfServiceUrl: http://home.mytest.com
+  license: The Apache License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.html

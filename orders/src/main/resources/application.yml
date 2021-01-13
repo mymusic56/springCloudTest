@@ -41,7 +41,7 @@ spring:
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
   profiles:
-    include: seata
+    include: seata,swagger
     #mybatis:
   # handler-location 和 configuration不能同时定义
   #  handler-location: classpath:mybatis/mybatis-handler.xml

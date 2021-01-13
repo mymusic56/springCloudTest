@@ -2,6 +2,7 @@ package com.zsj.goods.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zsj.goods.vo.PageVo;
 import com.zsj.lib.consts.DateFormatConst;
 import com.zsj.lib.enums.StatusRemark;
 import com.zsj.lib.utils.DateUtil;
@@ -12,6 +13,7 @@ import com.zsj.goods.mapper.BrandGroupMapper;
 import com.zsj.goods.service.IBrandGroupService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -29,17 +31,19 @@ import java.util.Map;
 @Service
 public class BrandGroupServiceImpl extends ServiceImpl<BrandGroupMapper, BrandGroup> implements IBrandGroupService {
 
-    public Map<String, Object> getList(Map<String, Object> param) {
-        int p = ParamUtil.getInt("page", param, 1);
-        int pageSize = ParamUtil.getInt("pageSize", param, 10);
+    @Value("${custom-config.pageSize}")
+    private int pageSize;
 
-        QueryWrapper<BrandGroup> wrapper = new QueryWrapper<BrandGroup>();
+    public PageVo<BrandGroup> getList(Map<String, Object> param) {
+        int p = ParamUtil.getInt("page", param, 1);
+
+        QueryWrapper<BrandGroup> wrapper = new QueryWrapper<>();
 
         if (param.get("groupName") != null && !param.get("groupName").equals("")) {
             wrapper.like("group_name", param.get("groupName"));
         }
 
-        int isDisabled = ParamUtil.getInt("isDisabled", param, -1);
+        int isDisabled = Integer.parseInt((String) param.get("isDisabled"));
         if (isDisabled >= 0) {
             wrapper.eq("is_disabled", isDisabled);
         }
@@ -59,13 +63,13 @@ public class BrandGroupServiceImpl extends ServiceImpl<BrandGroupMapper, BrandGr
             }
         });
 
+        PageVo<BrandGroup> vo = new PageVo<>();
         Map<String, Object> map = new HashMap<>();
+        vo.setCurrentPage(page.getCurrent());
+        vo.setPageTotal(page.getPages());
+        vo.setDataTotal(page.getTotal());
+        vo.setList(list);
 
-        map.put("currentPage", page.getCurrent());
-        map.put("pageTotal", page.getPages());
-        map.put("dataTotal", page.getTotal());
-        map.put("list", list);
-
-        return map;
+        return vo;
     }
 }
