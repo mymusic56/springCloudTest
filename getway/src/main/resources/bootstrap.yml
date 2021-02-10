@@ -1,3 +1,4 @@
+# 网关动态路由配置放到nacos中，getway-application
 spring:
   application:
     name: getway-service

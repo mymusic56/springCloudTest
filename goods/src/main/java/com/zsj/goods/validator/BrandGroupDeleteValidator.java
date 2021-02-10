@@ -1,9 +1,12 @@
 package com.zsj.goods.validator;
 
+import com.zsj.lib.annotation.Enum;
+import com.zsj.lib.annotation.IsInteger;
+import com.zsj.lib.enums.StatusRemark;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.*;
 
@@ -12,6 +15,7 @@ import javax.validation.constraints.*;
 public class BrandGroupDeleteValidator {
     @NotNull(message = "ID不能为空！")
     @ApiModelProperty(name = "id", value = "系列ID", required = true)
+    @IsInteger(message = "请填入数字")
     private String id;
 
 //    @NotBlank

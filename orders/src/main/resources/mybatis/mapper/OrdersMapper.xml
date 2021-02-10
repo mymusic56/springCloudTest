@@ -10,6 +10,22 @@
         <result column="updated_at" property="updatedAt" jdbcType="INTEGER"/>
         <result column="created_at" property="createdAt" jdbcType="INTEGER"/>
     </resultMap>
+    <resultMap id="orderWithGoods" type="com.zsj.orders.entity.OrdersEntity">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_sn" property="orderSn" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="DOUBLE"/>
+        <result column="updated_at" property="updatedAt" jdbcType="INTEGER"/>
+        <result column="created_at" property="createdAt" jdbcType="INTEGER"/>
+        <collection property="goodsList" javaType="java.util.List" ofType="com.zsj.orders.entity.OrdersGoodsEntity">
+            <result property="id" column="rec_id"/>
+            <result property="orderId" column="order_id"/>
+            <result property="goodsName" column="goods_name"/>
+            <result property="goodsSn" column="goods_sn"/>
+            <result property="num" column="num"/>
+        </collection>
+    </resultMap>
 
     <sql id="Base_Column_List">
         id, order_sn, user_id, address, amount, created_at
@@ -28,4 +44,17 @@
         VALUES
           (#{orderSn}, #{userId}, #{amount}, #{address}, #{createdAt})
     </insert>
+    <select id="listOrderWithGoodsByOrderSn" resultMap="orderWithGoods" parameterType="java.util.List">
+        SELECT
+        o.id,o.order_sn,o.user_id,o.address,o.amount,o.updated_at,o.created_at,
+        og.id rec_id,og.order_id,og.goods_sn,og.goods_name,og.num
+        FROM dn_order o
+        LEFT JOIN dn_order_goods og ON(o.id = og.order_id)
+        WHERE o.order_sn IN 
+        <foreach collection="orderSnList" item="orderSn" open="(" close=")" separator=",">
+            #{orderSn}
+        </foreach>
+
+        ORDER BY o.id DESC
+    </select>
 </mapper>
