@@ -37,8 +37,8 @@ public class BrandController extends BaseController {
     @Resource
     private BrandMapper brandMapper;
 
-    @Value("${custom-config.pageSize}")
-    private int pageSize;
+    @Value("${custom-config.pageSize:10}")
+    private Integer pageSize;
 
     @GetMapping("list")
     @ApiOperation(value = "品牌列表")

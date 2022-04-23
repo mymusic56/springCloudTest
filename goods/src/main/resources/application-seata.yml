@@ -5,14 +5,24 @@ seata:
     file:
       name: file.conf
     nacos:
+      namespace: fa7c6496-80e1-4a6a-af48-fd37adecb315
       server-addr: ${spring.cloud.nacos.discovery.server-addr}
       username: nacos
       password: nacos
       group: SEATA_GROUP
   application-id: ${spring.application.name}-seata
   enabled: true
-  tx-service-group:
-    ${spring.application.name}-seata-service-group: default
+  # 事务分组配置
+  # 应用程序是SpringBoot则通过seata.service.vgroup-mapping.事务分组名=集群名称 配置
+  tx-service-group: ${spring.application.name}-seata-service-group
+  service:
+    vgroup-mapping:
+      # 指定事务分组至集群映射关系（等号右侧的集群名需要与Seata-server注册到Nacos的cluster保持一致）
+      ${spring.application.name}-seata-service-group: cluster01
+    # 直接指定集群名
+  #    grouplist:
+  #      ${spring.application.name}-seata-service-group: cluster01
+  # seata-spring-boot-starter(SSBS)专有配置,SSBS默认会开启数据源自动代理,可通过该配置项关闭.
   enable-auto-data-source-proxy: true
   # 注册中心
   registry:
@@ -25,6 +35,8 @@ seata:
       server-addr: ${spring.cloud.nacos.discovery.server-addr}
       username: nacos
       password: nacos
-      group: SEATA_GROUP
-      cluster: default
+      namespace: fa7c6496-80e1-4a6a-af48-fd37adecb315
+      # Seata服务名（应与seata-server实际注册的服务名一致）
       application: seata-server
+      #Seata分组名（应与seata-server实际注册的分组名一致）
+      group: SEATA_GROUP

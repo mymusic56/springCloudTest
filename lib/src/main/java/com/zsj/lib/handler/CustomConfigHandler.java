@@ -15,6 +15,6 @@ public class CustomConfigHandler {
     //主数据相关配置
     private String mainDataClientId;
     private String mainDataSecret;
-    private int mainDataExpires;
+    private Integer mainDataExpires;
     private String mainDataBaseUrl;
 }
